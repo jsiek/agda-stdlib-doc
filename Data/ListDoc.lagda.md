@@ -4,9 +4,10 @@ module ListDoc where
 ```
 
 ```
-open import Data.Nat
+open import Data.Fin using (Fin; zero; suc)
 open import Data.List
 open import Data.Maybe using (Maybe; just; nothing)
+open import Data.Nat
 import Relation.Binary.PropositionalEquality as Eq
 open Eq using (_≡_; refl; sym; cong; cong₂; cong-app)
 ```
@@ -88,8 +89,8 @@ _ : foldr _++_ [] ((1 ∷ 2 ∷ []) ∷ (3 ∷ 4 ∷ []) ∷ (5 ∷ 6 ∷ []) �
 _ = refl    
 ```
 
-The binary operator may take inputs of different type, but it's result
-must has the same type as the second parameter. The following example
+The binary operator may take inputs of different type, but its result
+must have the same type as the second parameter. The following example
 uses `foldr` to produce a list that includes all the positive numbers
 from the input list.
 
@@ -150,6 +151,30 @@ _ : length (7 ∷ 4 ∷ []) ≡ 2
 _ = refl
 ```
 
+```
+_ : length {A = ℕ} [] ≡ 0
+_ = refl
+```
+
+## `lookup : ∀ (xs : List A) → Fin (length xs) → A`
+
+The `lookup` function returns the element at the specified position
+in the list. You might expect the second parameter of `lookup` to
+have type `ℕ`, but instead it has type `Fin (length xs)`,
+which means it's a natural number less than `length xs`.
+
+```
+_ : lookup (7 ∷ 4 ∷ 9 ∷ []) zero ≡ 7
+_ = refl
+
+_ : lookup (7 ∷ 4 ∷ 9 ∷ []) (suc zero) ≡ 4
+_ = refl
+
+_ : lookup (7 ∷ 4 ∷ 9 ∷ []) (suc (suc zero)) ≡ 9
+_ = refl
+```
+
+
 ## `map : (A → B) → List A → List B`
 
 The `map` function applies some other function to every element
@@ -163,6 +188,7 @@ _ : map dub (7 ∷ 4 ∷ []) ≡ 14 ∷ 8 ∷ []
 _ = refl
 ```
 
+
 ## `reverse : List A → List A`
 
 The `reverse` function takes a list and produces a list whose elements
@@ -174,6 +200,21 @@ _ : reverse (7 ∷ 4 ∷ 9 ∷ []) ≡ (9 ∷ 4 ∷ 7 ∷ [])
 _ = refl
 ```
 
+
 ## `tail : List A → Maybe (List A)`
 
+The `tail` function takes a list and returns a list that includes all
+but the first element.
+
+```
+_ : tail (7 ∷ 4 ∷ 9 ∷ []) ≡ just (4 ∷ 9 ∷ [])
+_ = refl
+```
+
+```
+_ : tail {A = ℕ} [] ≡ nothing
+_ = refl
+```
+
+# Properties of the functions on lists
 
