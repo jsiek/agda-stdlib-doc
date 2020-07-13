@@ -6,6 +6,7 @@ module ListDoc where
 ```
 open import Data.Nat
 open import Data.List
+open import Data.Maybe using (Maybe; just; nothing)
 import Relation.Binary.PropositionalEquality as Eq
 open Eq using (_≡_; refl; sym; cong; cong₂; cong-app)
 ```
@@ -13,16 +14,27 @@ open Eq using (_≡_; refl; sym; cong; cong₂; cong-app)
 # List Data Type
 
 
-The `List` data type is for representing sequences of values
-of the same type. The data type has two constructors:
+The `List` data type is for representing sequences of values of the
+same type. The data type has two constructors, `[]` and `_∷_`,
+described below.
 
-* `[]` creates an empty list,
-* `x ∷ xs` creates a list whose first element is `x` and the rest is `xs`.
+
+## `[] : List A`
+
+
+Create an empty list.
 
 ```
 _ : List ℕ
 _ = []
+```
 
+
+## `_∷_ : A → List A → List A`
+
+Creates a new list from the old one with the given element at the front.
+
+```
 _ : List ℕ
 _ = 4 ∷ []
 
@@ -30,9 +42,9 @@ _ : List ℕ
 _ = 7 ∷ 4 ∷ []
 ```
 
-# Operations on Lists
+# Functions on lists
 
-## append
+## `_++_ : List A → List A → List A`
 
 The append function `xs ++ ys` takes two lists and produces a third.
 The first portion of the result is equal to `xs` and the later part is
@@ -43,9 +55,19 @@ _ : (7 ∷ 4 ∷ []) ++ (9 ∷ []) ≡ (7 ∷ 4 ∷ 9 ∷ [])
 _ = refl
 ```
 
-## concat
+## `concat : List (List A) → List A`
 
-## foldr
+The concatenation function combines a list of lists into a single
+list.
+
+```
+_ : concat ((1 ∷ 2 ∷ []) ∷ (3 ∷ 4 ∷ []) ∷ (5 ∷ 6 ∷ []) ∷ [])
+    ≡ 1 ∷ 2 ∷ 3 ∷ 4 ∷ 5 ∷ 6 ∷ []
+_ = refl    
+```
+
+
+## `foldr : (A → B → B) → B → List A → B`
 
 The `foldr` function accumulates the result of applying a binary
 operator to 1) an element of a list and 2) the result from `foldr` on
@@ -54,9 +76,11 @@ operator, the second is a value to return if the list is empty, and
 the third parameter is the list.
 
 ```
-_ : foldr _+_ 0 (7 ∷ 4 ∷ 9 ∷ []) ≡ 20
+_ : foldr _+_ 0 (7 ∷ 4 ∷ 9 ∷ []) ≡ (7 + (4 + (9 + 0)))
 _ = refl
 ```
+
+We can express `concat` as a `foldr`.
 
 ```
 _ : foldr _++_ [] ((1 ∷ 2 ∷ []) ∷ (3 ∷ 4 ∷ []) ∷ (5 ∷ 6 ∷ []) ∷ [])
@@ -80,11 +104,44 @@ _ : foldr keep-pos [] (2 ∷ 0 ∷ 3 ∷ []) ≡ (2 ∷ 3 ∷ [])
 _ = refl
 ```
 
-## foldl
+## `foldl : (A → B → A) → A → List B → A`
+
+The `foldl` accumulates the result of applying a binary operator to
+the elements of a list, similar to `foldr`, but does so left-to-right
+instead of right to left.
+
+```
+_ : foldl _+_ 0 (7 ∷ 4 ∷ 9 ∷ []) ≡ ((0 + 7) + 4) + 9
+_ = refl
+```
+
+The binary operator may take inputs of different type.  In contrast to
+`foldr`, its result type must be the same as the first parameter.
+In the next example, we reverse a list using `foldl`, with
+`A = List ℕ` and `B = ℕ`.
+
+```
+_ : foldl (λ ys x → x ∷ ys) [] (7 ∷ 4 ∷ 9 ∷ []) ≡ (9 ∷ 4 ∷ 7 ∷ [])
+_ = refl
+```
 
 
+## `head : List A → Maybe A`
 
-## length
+Return the first element of a list, unless it is empty.
+
+```
+_ : head (5 ∷ 0 ∷ 3 ∷ []) ≡ just 5
+_ = refl
+```
+
+```
+_ : head {A = ℕ} [] ≡ nothing
+_ = refl
+```
+
+
+## `length : List A → ℕ`
 
 The `length` function computes the length of a list.
 
@@ -93,7 +150,7 @@ _ : length (7 ∷ 4 ∷ []) ≡ 2
 _ = refl
 ```
 
-## map
+## `map : (A → B) → List A → List B`
 
 The `map` function applies some other function to every element
 of a list, creating a new list.
@@ -106,7 +163,7 @@ _ : map dub (7 ∷ 4 ∷ []) ≡ 14 ∷ 8 ∷ []
 _ = refl
 ```
 
-## reverse
+## `reverse : List A → List A`
 
 The `reverse` function takes a list and produces a list whose elements
 are in the opposite order. That is, the element at position `i`
@@ -116,4 +173,7 @@ in the original list `xs` becomes the element at position `length xs - i - 1`.
 _ : reverse (7 ∷ 4 ∷ 9 ∷ []) ≡ (9 ∷ 4 ∷ 7 ∷ [])
 _ = refl
 ```
+
+## `tail : List A → Maybe (List A)`
+
 
