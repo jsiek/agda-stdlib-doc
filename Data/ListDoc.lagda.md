@@ -4,8 +4,10 @@ module ListDoc where
 ```
 
 ```
-open import Data.Fin using (Fin; zero; suc)
+open import Agda.Primitive using (Level; lzero; lsuc; _⊔_)
+open import Data.Fin using (Fin; zero; suc; fromℕ<)
 open import Data.List
+open import Data.List.Properties
 open import Data.Maybe using (Maybe; just; nothing)
 open import Data.Nat
 import Relation.Binary.PropositionalEquality as Eq
@@ -156,6 +158,17 @@ _ : length {A = ℕ} [] ≡ 0
 _ = refl
 ```
 
+The `length` function is defined in the Agda standard library
+in terms of `foldr`, so don't be surprised when your `length`s
+are displayed as `foldr`s.
+
+```
+_ : foldr (λ x n → suc n) 0 (7 ∷ 4 ∷ []) ≡ 2
+_ = refl
+```
+
+
+
 ## `lookup : ∀ (xs : List A) → Fin (length xs) → A`
 
 The `lookup` function returns the element at the specified position
@@ -171,6 +184,21 @@ _ : lookup (7 ∷ 4 ∷ 9 ∷ []) (suc zero) ≡ 4
 _ = refl
 
 _ : lookup (7 ∷ 4 ∷ 9 ∷ []) (suc (suc zero)) ≡ 9
+_ = refl
+```
+
+If you have a `ℕ` and a proof that it is less than the length, then
+you can convert it to the appropriate `Fin` using `fromℕ<` in the
+`Fin` module.
+
+```
+i : ℕ
+i = suc zero
+
+i<3 : i < 3
+i<3 = s≤s (s≤s z≤n)
+
+_ : lookup (7 ∷ 4 ∷ 9 ∷ []) (fromℕ< i<3) ≡ 4
 _ = refl
 ```
 
@@ -218,3 +246,53 @@ _ = refl
 
 # Properties of the functions on lists
 
+```
+variable
+  ℓ : Level
+  A : Set ℓ
+  x y z : A
+  xs ys zs : List A
+```
+
+
+## `++-assoc : ∀ xs ys zs → ((xs ++ ys) ++ zs) ≡ (xs ++ (ys ++ zs))`
+
+The append function is associative.
+
+```
+f : (xs ++ (y ∷ [])) ++ zs ≡ xs ++ (y ∷ zs)
+f {xs = xs}{y}{zs} = ++-assoc xs (y ∷ []) zs
+```
+
+## `++-identityˡ : ∀ xs → ([] ++ xs) ≡ xs`
+
+Appending the empty-list to a list returns the same list.
+
+```
+h : [] ++ (x ∷ y ∷ []) ≡ (x ∷ y ∷ [])
+h {x = x}{y} = ++-identityˡ (x ∷ y ∷ [])
+```
+
+In emacs, to type the unicode symbol `ˡ`, type `\^l` then select option 4.
+
+
+## `++-identityʳ : ∀ xs → (xs ++ []) ≡ xs`
+
+Appending a list to the empty list returns the first list.
+
+```
+j : (x ∷ y ∷ []) ++ [] ≡ (x ∷ y ∷ [])
+j {x = x}{y} = ++-identityʳ (x ∷ y ∷ [])
+```
+
+In emacs, to type the unicode symbol `ʳ`, type `\^r` then select option 4.
+
+
+## `length-++ : ∀ xs {ys} → length (xs ++ ys) ≡ length xs + length ys`
+
+The length of two appended lists is the sum of their lengths.
+
+```
+g : length (xs ++ (y ∷ [])) ≡ (length xs) + length (y ∷ [])
+g {xs = xs}{y} = length-++ xs
+```
