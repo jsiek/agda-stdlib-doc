@@ -319,14 +319,18 @@ g : length (xs ++ (y ∷ [])) ≡ (length xs) + length (y ∷ [])
 g {xs = xs}{y} = length-++ xs
 ```
 
-## `map-id : ∀ xs → map id xs ≡ xs`
+## `map-id : map id ≗ id {A = List A}`
 
-Mapping the identity function over a list produces the same list.
+Mapping the identity function is the identity function on lists.
 
 ```
 l : map id (x ∷ y ∷ []) ≡ (x ∷ y ∷ [])
 l {x = x}{y} = map-id (x ∷ y ∷ []) 
 ```
+
+Pointwise equality `f ≗ g` means to `∀ x → f x ≡ g x`.  (See
+[here](../Relation/Binary/PropositionalEqualityDoc.lagda.md#pointwise-function-equality)).
+
 
 ## `map-++-commute : ∀ f xs ys → map f (xs ++ ys) ≡ map f xs ++ map f ys`
 
@@ -367,9 +371,8 @@ o {ns = ns} = map-cong dub≡×2 ns
   dub≡×2 x rewrite +-comm x 0 = refl
 ```
 
-The relation `_≗_` is pointwise equality, so
-`f ≗ g` is equivalent to `∀ x → f x ≡ g x`.
-(See [here](../Relation/Binary/PropositionalEqualityDoc.lagda.md#pointwise-function-equality)).
+Pointwise equality `f ≗ g` means to `∀ x → f x ≡ g x`.  (See
+[here](../Relation/Binary/PropositionalEqualityDoc.lagda.md#pointwise-function-equality)).
 
 
 
