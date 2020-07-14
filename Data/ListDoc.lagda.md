@@ -9,10 +9,15 @@ open import Data.Fin using (Fin; zero; suc; fromℕ<)
 open import Data.List
 open import Data.List.Properties
 open import Data.Maybe using (Maybe; just; nothing)
-open import Data.Nat
-open import Function using (id; _∘_)
+open import Data.Nat hiding (_⊔_)
+open import Data.Nat.Properties
+open import Data.Product using (_×_; _,_; proj₁; proj₂; Σ-syntax)
+open import Function using (id; _∘_; _↔_)
 import Relation.Binary.PropositionalEquality as Eq
-open Eq using (_≡_; refl; sym; cong; cong₂; cong-app)
+open Eq using (_≡_; _≗_; refl; sym; cong; cong₂; cong-app)
+
+_iff_ : Set → Set → Set
+P iff Q = (P → Q) × (Q → P)
 ```
 
 # List Data Type
@@ -245,6 +250,8 @@ _ : tail (7 ∷ 4 ∷ 9 ∷ []) ≡ just (4 ∷ 9 ∷ [])
 _ = refl
 ```
 
+If the list is empty, `tail` returns nothing.
+
 ```
 _ : tail {A = ℕ} [] ≡ nothing
 _ = refl
@@ -255,7 +262,7 @@ _ = refl
 ```
 variable
   ℓ : Level
-  A : Set ℓ
+  A B C : Set ℓ
   x y z : A
   xs ys zs : List A
   ls ms ns : List ℕ
@@ -267,7 +274,7 @@ variable
 The append function is associative.
 
 ```
-f : (xs ++ (y ∷ [])) ++ zs ≡ xs ++ (y ∷ zs)
+f : (xs ++ (y ∷ [])) ++ zs ≡ xs ++ ((y ∷ []) ++ zs)
 f {xs = xs}{y}{zs} = ++-assoc xs (y ∷ []) zs
 ```
 
@@ -342,4 +349,32 @@ function over the resulting list.
 n : map (dub ∘ suc) ns ≡ map dub (map suc ns)
 n {ns = ns} = map-compose ns
 ```
+
+
+## `map-cong : ∀ {f g : A → B} → f ≗ g → map f ≗ map g`
+
+The results of two `map`s are equal if the two functions are equal on
+all inputs.
+
+```
+×2 : ℕ → ℕ
+×2 x = 2 * x
+
+o : map dub ns ≡ map ×2 ns
+o {ns = ns} = map-cong dub≡×2 ns
+  where
+  dub≡×2 : ∀ x → x + x ≡ 2 * x
+  dub≡×2 x rewrite +-comm x 0 = refl
+```
+
+The relation `_≗_` means pointwise equality, so
+`f ≗ g` is equivalent to `∀ x → f x ≡ g x`.
+
+```
+_ : ∀{f g : A → B} → (f ≗ g) iff (∀ x → f x ≡ g x)
+_ = (λ f≗g a → f≗g a) , λ fx≡gx a → fx≡gx a
+```
+
+
+    
 
