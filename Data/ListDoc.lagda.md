@@ -20,7 +20,7 @@ _iff_ : Set → Set → Set
 P iff Q = (P → Q) × (Q → P)
 ```
 
-# List Data Type
+# The `List` Data Type
 
 
 The `List` data type is for representing sequences of values of the
@@ -367,13 +367,10 @@ o {ns = ns} = map-cong dub≡×2 ns
   dub≡×2 x rewrite +-comm x 0 = refl
 ```
 
-The relation `_≗_` means pointwise equality, so
+The relation `_≗_` is pointwise equality, so
 `f ≗ g` is equivalent to `∀ x → f x ≡ g x`.
+(See [here](../Relation/Binary/PropositionalEqualityDoc.lagda.md#pointwise-function-equality)).
 
-```
-_ : ∀{f g : A → B} → (f ≗ g) iff (∀ x → f x ≡ g x)
-_ = (λ f≗g a → f≗g a) , λ fx≡gx a → fx≡gx a
-```
 
 
     
