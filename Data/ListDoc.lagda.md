@@ -327,7 +327,7 @@ l : map id (x ∷ y ∷ []) ≡ (x ∷ y ∷ [])
 l {x = x}{y} = map-id (x ∷ y ∷ []) 
 ```
 
-Pointwise equality `f ≗ g` means to `∀ x → f x ≡ g x`.  (See
+Note: pointwise equality `f ≗ g` means `∀ x → f x ≡ g x`.  (See
 [here](../Relation/Binary/PropositionalEqualityDoc.lagda.md#pointwise-function-equality)).
 
 
@@ -342,7 +342,7 @@ m {ls = ls}{ms} = map-++-commute suc ls ms
 ```
 
 
-## `map-compose : ∀ {g} {f} xs → map (g ∘ f) xs ≡ map g (map f xs)`
+## `map-compose : {g : B → C} {f : A → B} → map (g ∘ f) ≗ map g ∘ map f`
 
 Mapping the composition of two functions over a list is the same as
 mapping the first function over the list and then mapping the second
@@ -353,10 +353,12 @@ n : map (dub ∘ suc) ns ≡ map dub (map suc ns)
 n {ns = ns} = map-compose ns
 ```
 
+Note: pointwise equality `f ≗ g` means `∀ x → f x ≡ g x`.  (See
+[here](../Relation/Binary/PropositionalEqualityDoc.lagda.md#pointwise-function-equality)).
 
 ## `map-cong : ∀ {f g : A → B} → f ≗ g → map f ≗ map g`
 
-The results of two `map`s are equal if the two functions are equal on
+The results of two maps are equal if the two functions are equal on
 all inputs.
 
 ```
@@ -370,10 +372,6 @@ o {ns = ns} = map-cong dub≡×2 ns
   dub≡×2 x rewrite +-comm x 0 = refl
 ```
 
-Pointwise equality `f ≗ g` means to `∀ x → f x ≡ g x`.  (See
+Note: pointwise equality `f ≗ g` means `∀ x → f x ≡ g x`.  (See
 [here](../Relation/Binary/PropositionalEqualityDoc.lagda.md#pointwise-function-equality)).
-
-
-
-    
 

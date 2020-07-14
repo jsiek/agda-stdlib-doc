@@ -25,8 +25,8 @@ private
 
 ## `_≗_ : (f g : A → B) → Set _` <a name="pointwise-function-equality"></a>
 
-Pointwise equality on functions, which means `f ≗ g` if `f` and `g`
-produce the same result on every input.
+Pointwise equality on functions. So `f ≗ g` means `f` and `g` produce
+the same result on every input.
 
 ```
 dub : ℕ → ℕ
