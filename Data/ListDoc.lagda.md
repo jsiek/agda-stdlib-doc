@@ -20,7 +20,7 @@ _iff_ : Set → Set → Set
 P iff Q = (P → Q) × (Q → P)
 ```
 
-# The `List` Data Type
+# The `List` Data Type <a name="List"></a>
 
 
 The `List` data type is for representing sequences of values of the
@@ -28,7 +28,7 @@ same type. The data type has two constructors, `[]` and `_∷_`,
 described below.
 
 
-## `[] : List A`
+## `[] : List A` <a name="nil"></a>
 
 
 Create an empty list.
@@ -39,7 +39,7 @@ _ = []
 ```
 
 
-## `_∷_ : A → List A → List A`
+## `_∷_ : A → List A → List A` <a name="cons"></a>
 
 Creates a new list from the old one with the given element at the front.
 
@@ -53,7 +53,7 @@ _ = 7 ∷ 4 ∷ []
 
 # Functions on lists
 
-## `_++_ : List A → List A → List A`
+## `_++_ : List A → List A → List A` <a name="append"></a>
 
 The append function `xs ++ ys` takes two lists and produces a third.
 The first portion of the result is equal to `xs` and the later part is
@@ -64,7 +64,7 @@ _ : (7 ∷ 4 ∷ []) ++ (9 ∷ []) ≡ (7 ∷ 4 ∷ 9 ∷ [])
 _ = refl
 ```
 
-## `concat : List (List A) → List A`
+## `concat : List (List A) → List A` <a name="concat"></a>
 
 The concatenation function combines a list of lists into a single
 list.
@@ -76,7 +76,7 @@ _ = refl
 ```
 
 
-## `foldr : (A → B → B) → B → List A → B`
+## `foldr : (A → B → B) → B → List A → B` <a name="foldr"></a>
 
 The `foldr` function accumulates the result of applying a binary
 operator to 1) an element of a list and 2) the result from `foldr` on
@@ -113,11 +113,11 @@ _ : foldr keep-pos [] (2 ∷ 0 ∷ 3 ∷ []) ≡ (2 ∷ 3 ∷ [])
 _ = refl
 ```
 
-## `foldl : (A → B → A) → A → List B → A`
+## `foldl : (A → B → A) → A → List B → A` <a name="foldl"></a>
 
 The `foldl` accumulates the result of applying a binary operator to
-the elements of a list, similar to `foldr`, but does so left-to-right
-instead of right to left.
+the elements of a list, similar to [`foldr`](#foldr), but does so
+left-to-right instead of right to left.
 
 ```
 _ : foldl _+_ 0 (7 ∷ 4 ∷ 9 ∷ []) ≡ ((0 + 7) + 4) + 9
@@ -135,7 +135,7 @@ _ = refl
 ```
 
 
-## `head : List A → Maybe A`
+## `head : List A → Maybe A` <a name="head"></a>
 
 Return the first element of a list, unless it is empty.
 
@@ -150,7 +150,7 @@ _ = refl
 ```
 
 
-## `length : List A → ℕ`
+## `length : List A → ℕ` <a name="length"></a>
 
 The `length` function computes the length of a list.
 
@@ -174,8 +174,7 @@ _ = refl
 ```
 
 
-
-## `lookup : ∀ (xs : List A) → Fin (length xs) → A`
+## `lookup : ∀ (xs : List A) → Fin (length xs) → A` <a name="lookup"></a>
 
 The `lookup` function returns the element at the specified position
 in the list. You might expect the second parameter of `lookup` to
@@ -214,7 +213,7 @@ instead using the alternative lookup function, written `_!_`, in my
 [agda-stdlib-aux](https://github.com/jsiek/agda-stdlib-aux) library.
 
 
-## `map : (A → B) → List A → List B`
+## `map : (A → B) → List A → List B` <a name="map"></a>
 
 The `map` function applies some other function to every element
 of a list, creating a new list.
@@ -228,7 +227,7 @@ _ = refl
 ```
 
 
-## `reverse : List A → List A`
+## `reverse : List A → List A` <a name="reverse"></a>
 
 The `reverse` function takes a list and produces a list whose elements
 are in the opposite order. That is, the element at position `i`
@@ -240,7 +239,7 @@ _ = refl
 ```
 
 
-## `tail : List A → Maybe (List A)`
+## `tail : List A → Maybe (List A)` <a name="tail"></a>
 
 The `tail` function takes a list and returns a list that includes all
 but the first element.
