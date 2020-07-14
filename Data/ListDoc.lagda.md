@@ -318,6 +318,18 @@ g : length (xs ++ (y ∷ [])) ≡ (length xs) + length (y ∷ [])
 g {xs = xs}{y} = length-++ xs
 ```
 
+
+## `length-map : ∀ (f : A → B) xs → length (map f xs) ≡ length xs`
+
+The length of the result of mapping over a list is the same as the
+list.
+
+```
+p : length (map dub ns) ≡ length ns
+p {ns = ns} = length-map dub ns
+```
+
+
 ## `map-id : map id ≗ id {A = List A}`
 
 Mapping the identity function is the identity function on lists.
