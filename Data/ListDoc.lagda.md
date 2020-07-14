@@ -10,6 +10,7 @@ open import Data.List
 open import Data.List.Properties
 open import Data.Maybe using (Maybe; just; nothing)
 open import Data.Nat
+open import Function using (id; _∘_)
 import Relation.Binary.PropositionalEquality as Eq
 open Eq using (_≡_; refl; sym; cong; cong₂; cong-app)
 ```
@@ -175,6 +176,7 @@ The `lookup` function returns the element at the specified position
 in the list. You might expect the second parameter of `lookup` to
 have type `ℕ`, but instead it has type `Fin (length xs)`,
 which means it's a natural number less than `length xs`.
+Like `ℕ`, the `Fin` data type has constructors named `zero` and `suc`.
 
 ```
 _ : lookup (7 ∷ 4 ∷ 9 ∷ []) zero ≡ 7
@@ -201,6 +203,10 @@ i<3 = s≤s (s≤s z≤n)
 _ : lookup (7 ∷ 4 ∷ 9 ∷ []) (fromℕ< i<3) ≡ 4
 _ = refl
 ```
+
+However, working with `lookup` and `Fin` is difficult, so I recommend
+instead using the alternative lookup function, written `_!_`, in my
+[agda-stdlib-aux](https://github.com/jsiek/agda-stdlib-aux) library.
 
 
 ## `map : (A → B) → List A → List B`
@@ -252,6 +258,7 @@ variable
   A : Set ℓ
   x y z : A
   xs ys zs : List A
+  ls ms ns : List ℕ
 ```
 
 
@@ -275,6 +282,14 @@ h {x = x}{y} = ++-identityˡ (x ∷ y ∷ [])
 
 In emacs, to type the unicode symbol `ˡ`, type `\^l` then select option 4.
 
+But this fact also follows directly from the definition of append, so
+it is provable by `refl`.
+
+```
+k : [] ++ (x ∷ y ∷ []) ≡ (x ∷ y ∷ [])
+k {x = x}{y} = refl
+```
+
 
 ## `++-identityʳ : ∀ xs → (xs ++ []) ≡ xs`
 
@@ -296,3 +311,35 @@ The length of two appended lists is the sum of their lengths.
 g : length (xs ++ (y ∷ [])) ≡ (length xs) + length (y ∷ [])
 g {xs = xs}{y} = length-++ xs
 ```
+
+## `map-id : ∀ xs → map id xs ≡ xs`
+
+Mapping the identity function over a list produces the same list.
+
+```
+l : map id (x ∷ y ∷ []) ≡ (x ∷ y ∷ [])
+l {x = x}{y} = map-id (x ∷ y ∷ []) 
+```
+
+## `map-++-commute : ∀ f xs ys → map f (xs ++ ys) ≡ map f xs ++ map f ys`
+
+Mapping over the append of two lists is the same as mapping over
+the two lists separately and then appending the results.
+
+```
+m : map {A = ℕ}{B = ℕ} suc (ls ++  ms) ≡ map suc ls ++ map suc ms 
+m {ls = ls}{ms} = map-++-commute suc ls ms
+```
+
+
+## `map-compose : ∀ {g} {f} xs → map (g ∘ f) xs ≡ map g (map f xs)`
+
+Mapping the composition of two functions over a list is the same as
+mapping the first function over the list and then mapping the second
+function over the resulting list.
+
+```
+n : map (dub ∘ suc) ns ≡ map dub (map suc ns)
+n {ns = ns} = map-compose ns
+```
+
