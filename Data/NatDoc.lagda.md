@@ -35,10 +35,24 @@ _ = 2
 
 The constructor for the natural number `0`.
 
+```
+_ : zero ≡ 0
+_ = refl
+```
+
 ## `suc : ℕ → ℕ`
 
 The constructor for creating the natural number that is one greater
 than the input number.
+
+```
+_ : suc 0 ≡ 1
+_ = refl
+
+_ : suc 1 ≡ 2
+_ = refl
+```
+
 
 # Relations on Natural Numbers
 
