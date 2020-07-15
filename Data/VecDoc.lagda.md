@@ -7,16 +7,18 @@ module VecDoc where
 ```
 open import Agda.Primitive using (Level; lzero; lsuc; _⊔_)
 open import Data.Fin using (Fin; zero; suc)
-open import Data.Nat using (ℕ; zero; suc)
+open import Data.Nat using (ℕ; zero; suc; _≟_)
 open import Data.Nat.Divisibility using (_∣_; divides)
 open import Data.Product using (_×_; _,_; proj₁; proj₂; Σ-syntax)
 open import Data.Vec using (Vec; []; _∷_; lookup)
+open import Data.Vec.Membership.DecPropositional _≟_ using (_∈?_)
 open import Data.Vec.Membership.Propositional using (_∈_)
 open import Data.Vec.Membership.Propositional.Properties using (∈-lookup)
 open import Data.Vec.Relation.Unary.Any using (Any; here; there)
 open import Data.Vec.Relation.Unary.All hiding (lookup)
-open import Relation.Unary using (Pred)
 open import Relation.Binary.PropositionalEquality using (_≡_; refl)
+open import Relation.Nullary using (Dec; yes; no)
+open import Relation.Unary using (Pred)
 
 private
  variable
@@ -75,6 +77,15 @@ _ : lookup (7 ∷ 4 ∷ 9 ∷ []) (suc zero) ≡ 4
 _ = refl
 ```
 
+## `_∈?_ : ∀ x {n} (xs : Vec A n) → Dec (x ∈ xs)`
+
+The decidable membership predicate `x ∈? xs` returns `yes` or `no`
+regarding whether `x` is an element of the vector `xs`.
+
+```
+_ : (4 ∈? (7 ∷ 4 ∷ 9 ∷ [])) ≡ yes _
+_ = refl
+```
 
 # Predicates and Relations on Vectors
 
