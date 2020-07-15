@@ -214,3 +214,60 @@ _ : 2 ⊓ 2 ≡ 2
 _ = refl
 ```
 
+## `⌊_/2⌋ : ℕ → ℕ → ℕ`
+
+Divide by `2`, rounding down.
+
+```
+_ : ⌊ 1 /2⌋ ≡ 0
+_ = refl
+
+_ : ⌊ 2 /2⌋ ≡ 1
+_ = refl
+
+_ : ⌊ 3 /2⌋ ≡ 1
+_ = refl
+
+_ : ⌊ 4 /2⌋ ≡ 2
+_ = refl
+
+_ : ⌊ 5 /2⌋ ≡ 2
+_ = refl
+
+_ : ⌊ 6 /2⌋ ≡ 3
+_ = refl
+```
+
+Be careful to put spaces around the argument, but not between
+the `/`, `2`, and `⌋`.
+
+In emacs, to type the unicode symbols `⌊` and `⌋`, type `\lfloor`
+and `\rfloor`, respectively. Alternatively, type `\cl` and select
+the third or fourth option.
+
+## `_^_ : ℕ → ℕ → ℕ`
+
+Exponentiation of natural numbers.
+
+```
+_ : 1 ^ 3 ≡ 1
+_ = refl
+
+_ : 2 ^ 3 ≡ 8
+_ = refl
+```
+
+## `∣_-_∣ : ℕ → ℕ → ℕ`
+
+The distance between two natural numbers.
+
+```
+_ : ∣ 5 - 2 ∣ ≡ 3
+_ = refl
+
+_ : ∣ 2 - 5 ∣ ≡ 3
+_ = refl
+```
+
+In emacs, to type the unicode symbol `∣`, type `\mid`.
+
