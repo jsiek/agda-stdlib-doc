@@ -269,7 +269,7 @@ _ : tail {A = ℕ} [] ≡ nothing
 _ = refl
 ```
 
-# Properties of the functions on lists
+# Properties of Functions on Lists
 
 ```
 variable
