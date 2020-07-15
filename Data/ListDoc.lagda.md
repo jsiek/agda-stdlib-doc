@@ -11,6 +11,7 @@ open import Data.List.Properties
 open import Data.Maybe using (Maybe; just; nothing)
 open import Data.Nat hiding (_⊔_)
 open import Data.Nat.Properties
+open import Data.Nat.Divisibility
 open import Data.Product using (_×_; _,_; proj₁; proj₂; Σ-syntax)
 open import Function using (id; _∘_; _↔_)
 import Relation.Binary.PropositionalEquality as Eq
@@ -75,6 +76,18 @@ _ : concat ((1 ∷ 2 ∷ []) ∷ (3 ∷ 4 ∷ []) ∷ (5 ∷ 6 ∷ []) ∷ [])
 _ = refl    
 ```
 
+## `filter : ∀ {P : Pred A p} → Decidable P → List A → List A` <a name="filter"></a>
+
+Applying the `filter` function to a list produces a new list that
+contains all of the elements that satisfy the given predicate.
+
+In the following we select the numbers from the list that are
+divisible by `2`.
+
+```
+_ : filter (λ x → 2 ∣? x) (1 ∷ 2 ∷ 3 ∷ 4 ∷ 5 ∷ []) ≡ (2 ∷ 4 ∷ [])
+_ = refl
+```
 
 ## `foldr : (A → B → B) → B → List A → B` <a name="foldr"></a>
 
