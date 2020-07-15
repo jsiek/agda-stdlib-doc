@@ -362,7 +362,7 @@ Mapping over the append of two lists is the same as mapping over
 the two lists separately and then appending the results.
 
 ```
-m : map {A = ℕ}{B = ℕ} suc (ls ++  ms) ≡ map suc ls ++ map suc ms 
+m : map {A = ℕ}{B = ℕ} suc (ls ++ ms) ≡ map suc ls ++ map suc ms 
 m {ls = ls}{ms} = map-++-commute suc ls ms
 ```
 
