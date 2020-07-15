@@ -127,7 +127,7 @@ _ = []
 ### `_∷_ : ∀ {n x} {xs : Vec A n} → P x → All P xs → All P (x ∷ xs)`
 
 The predicate `All P` is true of the vector `x ∷ xs` if
-both `P x` and `All P xs`.
+both `P x` and `All P xs` are true.
 
 ```
 _ : All (λ x → 2 ∣ x) (4 ∷ [])
@@ -136,8 +136,8 @@ _ = divides 2 refl  ∷  []
 
 ## `_∈_ : A → ∀ {n} → Vec A n → Set`
 
-The membership relation holds when the first argument is an element of
-the vector.
+The membership relation `x ∈ xs` holds when `x` is an element of the
+vector `xs`.
 
 ```
 _ : 4 ∈ (7 ∷ 4 ∷ 9 ∷ [])
