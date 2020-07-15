@@ -68,7 +68,7 @@ _ = 7 ∷ 4 ∷ []
 ## `lookup : ∀ {n} → Vec A n → Fin n → A`
 
 The `lookup` function returns the element at the specified position in
-the list.
+the vector.
 
 ```
 _ : lookup (7 ∷ 4 ∷ 9 ∷ []) (suc zero) ≡ 4
@@ -86,7 +86,7 @@ at least one of its elements. `Any` is represented by a data type with
 two constructors: `here` and `there` that are described below.
 
 
-For example, within the following list, there is a number (`4`) that
+For example, within the following vector, there is a number (`4`) that
 is divisible by `2`.
 
 ```
@@ -108,7 +108,7 @@ The `All` predicate holds on a vector when the `P` predicate holds on
 every one of its elements. `All` is represented by a data type with
 two constructors: `[]` and `_∷_` that are described below.
 
-For example, every element in the following list is divisible by `2`.
+For example, every element in the following vector is divisible by `2`.
 
 ```
 _ : All (λ x → 2 ∣ x) (8 ∷ 4 ∷ 6 ∷ [])
