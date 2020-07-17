@@ -5,7 +5,7 @@ module ListDoc where
 
 ```
 open import Agda.Primitive using (Level; lzero; lsuc; _⊔_)
-open import Data.Fin using (Fin; zero; suc; fromℕ<)
+open import Data.Fin using (Fin; zero; suc)
 open import Data.List
 open import Data.List.Properties
 open import Data.Maybe using (Maybe; just; nothing)
@@ -13,7 +13,7 @@ open import Data.Nat hiding (_⊔_)
 open import Data.Nat.Properties
 open import Data.Nat.Divisibility
 open import Data.Product using (_×_; _,_; proj₁; proj₂; Σ-syntax)
-open import Function using (id; _∘_; _↔_)
+open import Function using (id; _∘_)
 import Relation.Binary.PropositionalEquality as Eq
 open Eq using (_≡_; _≗_; refl; sym; cong; cong₂; cong-app)
 
@@ -193,6 +193,8 @@ The `lookup` function returns the element at the specified position
 in the list. You might expect the second parameter of `lookup` to
 have type `ℕ`, but instead it has type `Fin (length xs)`,
 which means it's a natural number less than `length xs`.
+This enables the `lookup` function to be a total function without
+changing the result type to be `Maybe A`.
 Like `ℕ`, the `Fin` data type has constructors named `zero` and `suc`.
 
 ```
@@ -206,23 +208,9 @@ _ : lookup (7 ∷ 4 ∷ 9 ∷ []) (suc (suc zero)) ≡ 9
 _ = refl
 ```
 
-If you have a `ℕ` and a proof that it is less than the length, then
-you can convert it to the appropriate `Fin` using `fromℕ<` in the
-`Fin` module.
-
-```
-i : ℕ
-i = suc zero
-
-i<3 : i < 3
-i<3 = s≤s (s≤s z≤n)
-
-_ : lookup (7 ∷ 4 ∷ 9 ∷ []) (fromℕ< i<3) ≡ 4
-_ = refl
-```
-
-However, working with `lookup` and `Fin` is difficult, so I recommend
-instead using the alternative lookup function, written `_!_`, in my
+If you find working with `lookup` and `Fin` to be difficult, there is
+an the alternative lookup function, written `_!_`, that uses `ℕ` and a
+result type of `Maybe A` in my
 [agda-stdlib-aux](https://github.com/jsiek/agda-stdlib-aux) library.
 
 
