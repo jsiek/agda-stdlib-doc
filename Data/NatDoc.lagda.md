@@ -389,7 +389,8 @@ argument.
 
 ## `+-comm : ∀ x y → x + y ≡ y + x`
 
-Addition is commutative.
+Addition is commutative, i.e., the ordering of the two inputs does not
+matter.
 
 ```
 eg1 : 3 * x + 2 * y  ≡  2 * y + 3 * x
@@ -399,7 +400,8 @@ eg1 {x}{y} = +-comm (3 * x) (2 * y)
 
 ## `+-assoc : ∀ x y z → (x + y) + z ≡ x + (y + z)`
 
-Addition is associative.
+Addition is associative. In a sequence of two (or more) additions, the
+grouping does not matter.
 
 ```
 eg3 : (3 * x + y) + 2 * z  ≡  3 * x + (y + 2 * z)
