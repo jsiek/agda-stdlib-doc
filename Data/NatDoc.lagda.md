@@ -374,7 +374,7 @@ eg12 = +-mono-≤ (n≤1+n 5) (n≤1+n 2)
 
 ## `+-suc : ∀ m n → m + suc n ≡ suc (m + n)`
 
-This lemma moves the `+1` to the front:
+This property moves the `+1` to the front:
 
     m + (1 + n) ≡ 1 + (m + n)
 
