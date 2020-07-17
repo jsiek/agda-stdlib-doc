@@ -357,12 +357,10 @@ eg11 : 5 ≤ 5 + x
 eg11 {x} = m≤m+n 5 x
 ```
 
-## `m≤n+m : ∀ m n → m ≤ n + m`
-
 ## `+-mono-≤ : ∀ {m n o p} → m ≤ o → n ≤ p → m + n ≤ o + p`
 
-Addition is preserves less-than-or-equal, i.e., it is monotonic with
-respect to less-than-or-equal.
+The larger the inputs to addition, the larger the result, i.e.,
+addition is monotonic with respect to less-than-or-equal.
 
 ```
 eg12 : 5 + 2 ≤ 6 + 3
