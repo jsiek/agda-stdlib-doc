@@ -339,15 +339,6 @@ eg10 : suc (2 * x) ≤ suc y  →  2 * x ≤ y
 eg10 lt = ≤-pred lt
 ```
 
-## `n≤1+n : ∀ n → n ≤ 1 + n`
-
-Adding one to a number produces a bigger number.
-
-```
-_ : 10 ≤ 11
-_ = n≤1+n 10
-```
-
 ## `m≤m+n : ∀ m n → m ≤ m + n`
 
 Adding any natural number produces a bigger number.
